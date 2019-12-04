@@ -20,14 +20,14 @@ namespace BattleshipTests
         #endregion
 
         #region MakeValidShipMethods
-        public static Ship MakeValidShip()
+        public static Ship MakeValidBattleship()
         {
             return new Battleship();
         }
 
-        public static Ship MakeValidShip(Action<Ship> initializer)
+        public static Ship MakeValidBattleship(Action<Ship> initializer)
         {
-            var ship = MakeValidShip();
+            var ship = MakeValidBattleship();
             initializer(ship);
             return ship;
         }
@@ -46,5 +46,7 @@ namespace BattleshipTests
             return player;
         }
         #endregion
+
+        
     }
 }

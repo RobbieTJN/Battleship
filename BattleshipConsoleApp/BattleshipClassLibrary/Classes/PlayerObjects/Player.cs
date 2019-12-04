@@ -15,8 +15,8 @@ namespace BattleshipClassLibrary
         public List<Ship> Fleet { get; set; }
         public bool IsDefeated => Fleet.All(ships => ships.HasSunk);
 
-        private string horizontalLine = "  ---------------------------------";
-        private string verticalLine = " | ";
+        private readonly string horizontalLine = ConstantsHandler.HORIZONTAL_LINE;
+        private readonly string verticalLine = ConstantsHandler.VERTICAL_LINE;
 
         public Player (string name)
         {
@@ -151,7 +151,7 @@ namespace BattleshipClassLibrary
             if (affectedShip.HasSunk)
             {
                 Console.WriteLine();
-                Console.WriteLine("[Sinking ship sounds] ...You sank my " + affectedShip.Name + ".");
+                Console.WriteLine(ConstantsHandler.SANK + affectedShip.Name + ".");
                 affectedPanel.WasAlreadyTargeted = true;
                 return ShotResult.Sank;
             }
@@ -170,11 +170,11 @@ namespace BattleshipClassLibrary
             {
                 case ShotResult.Hit:
                     affectedPanel.OccupationStatus = PanelStatus.Hit;
-                    result = "Ka-BOOOM! Hit registered!";
+                    result = ConstantsHandler.HIT;
                     break;
                 case ShotResult.Miss:
                     affectedPanel.OccupationStatus = PanelStatus.Miss;
-                    result = "Splooosh...Hit missed.";
+                    result = ConstantsHandler.MISS;
                     break;
                 case ShotResult.AlreadyHit:
                     result = ConstantsHandler.ALREADY_HIT;

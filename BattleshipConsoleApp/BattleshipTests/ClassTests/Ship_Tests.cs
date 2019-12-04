@@ -1,5 +1,4 @@
-﻿using BattleshipClassLibrary;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Xunit;
 using static BattleshipTests.TestExtensions;
 
@@ -10,19 +9,19 @@ namespace BattleshipTests.ValidationTests
         [Fact]
         public void HasSunk_Battleship_Default()
         {
-            MakeValidShip().HasSunk.Should().BeFalse();
+            MakeValidBattleship().HasSunk.Should().BeFalse();
         }
 
         [Fact]
         public void HasSunk_Battleship_TakenDamage()
         {
-            MakeValidShip(s => s.Hits = 1).HasSunk.Should().BeFalse();
+            MakeValidBattleship(ship => ship.Hits = 1).HasSunk.Should().BeFalse();
         }
 
         [Fact]
         public void HasSunk_Battleship_True()
         {
-            MakeValidShip(s => s.Hits = 3).HasSunk.Should().BeTrue();
+            MakeValidBattleship(ship => ship.Hits = 3).HasSunk.Should().BeTrue();
         }
     }
 }

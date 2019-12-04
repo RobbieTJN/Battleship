@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading;
 using BattleshipClassLibrary;
+using BattleshipClassLibrary.GameObjects;
+using BattleshipClassLibrary.Validation;
 
 namespace BattleshipConsoleApp
 {
@@ -11,90 +13,52 @@ namespace BattleshipConsoleApp
             Console.Title = "Battleship by Robbie Nielsen";
 
             Game game = new Game();
-            Board board = new Board();
-            game.PrintBattleshipLogo();
+            GameUtilities utilities = new GameUtilities();
+            utilities.PrintBattleshipLogo();
 
-            game.PrintIntro();
+            utilities.PrintIntro();
             Console.ReadKey(true);
 
-            game.PrintCoinFlip();
+            utilities.PrintCoinFlip();
             Thread.Sleep(1000);
 
-            string player1 = game.Player1NameInput();
-            string player2 = game.Player2NameInput();
-            Console.WriteLine();
+            string player1 = game.EnterPlayerName("1");
+            string player2 = game.EnterPlayerName("2");
 
-            bool namesConfirmed = game.ConfirmPlayerNames(player1, player2);
+            utilities.ConfirmPlayerNamesPrompt(player1, player2);
+            string confirmNames = Console.ReadLine();
+            bool namesConfirmed = Validator.AreNamesConfirmed(confirmNames);
 
             while (!namesConfirmed)
             {
                 Console.Clear();
-                game.PrintBattleshipLogo();
+                utilities.PrintBattleshipLogo();
 
-                player1 = game.Player1NameInput();
-                player2 = game.Player2NameInput();
+                player1 = game.EnterPlayerName("1");
+                player2 = game.EnterPlayerName("2");
 
-                namesConfirmed = game.ConfirmPlayerNames(player1, player2);
+                utilities.ConfirmPlayerNamesPrompt(player1, player2);
+                confirmNames = Console.ReadLine();
+                namesConfirmed = Validator.AreNamesConfirmed(confirmNames);
             }
 
             Console.WriteLine("Starting game...");
             game.Player1 = new Player(player1);
             game.Player2 = new Player(player2);
-            Thread.Sleep(1000);
+            Thread.Sleep(1500);
             
             Console.Clear();
-            board.DrawEmptyBoard();
 
-            for (int i = 0; i < game.Player1.Fleet.Count; i++)
-            {
-                Ship ship = game.Player1.Fleet[i];
-                game.PlaceShipMessage(player1, player2, ship.Name);
+            game.SetShips(game.Player1, game.Player2);
 
-                int column = game.EnterColumn();
-                int row = game.EnterRow();
-                string orientation = game.EnterOrientation();
-
-                string placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
-                while (placedShip != ConstantsHandler.SHIP_PLACE_SUCCESS)
-                {
-                    Console.WriteLine(placedShip);
-                    column = game.EnterColumn();
-                    row = game.EnterRow();
-                    orientation = game.EnterOrientation();
-                    placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
-                }
-                Console.WriteLine(placedShip);
-            }
-
-            Console.WriteLine("Get ready to place " + player2 + "'s ships...");
-            Thread.Sleep(1000);
+            Console.WriteLine(player1 + "'s ships are all placed! Press any key to place " + player2 + "'s ships...");
+            Console.ReadKey(true);
             Console.Clear();
-            board.DrawEmptyBoard();
 
-            for (int i = 0; i < game.Player2.Fleet.Count; i++)
-            {
-                Ship ship = game.Player2.Fleet[i];
-                game.PlaceShipMessage(player2, player1, ship.Name);
+            game.SetShips(game.Player2, game.Player1);
 
-                int column = game.EnterColumn();
-                int row = game.EnterRow();
-                string orientation = game.EnterOrientation();
-
-                string placedShip = game.Player2.PlaceShip(ship, row, column, orientation);
-                while (placedShip != ConstantsHandler.SHIP_PLACE_SUCCESS)
-                {
-                    Console.WriteLine(placedShip);
-                    column = game.EnterColumn();
-                    row = game.EnterRow();
-                    orientation = game.EnterOrientation();
-                    placedShip = game.Player2.PlaceShip(ship, row, column, orientation);
-                }
-
-                Console.WriteLine(placedShip);
-            }
-
-            Console.WriteLine("Ships all placed! Time to play...");
-            Thread.Sleep(1000);
+            Console.WriteLine("All ships placed! Press any key when ready...");
+            Console.ReadKey(true);
 
             game.Play();
             Thread.Sleep(1000);

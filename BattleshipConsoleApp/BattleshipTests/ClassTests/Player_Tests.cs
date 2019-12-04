@@ -8,6 +8,14 @@ namespace BattleshipTests.ValidationTests
 {
     public class Player_Tests
     {
+        #region CommonVariables
+        private readonly Player player1 = MakeValidPlayer(), player2 = MakeValidPlayer();
+        private readonly Ship ship = new Battleship();
+        private int row = 1, column = 1;
+        private string orientation = "horizontal";
+        #endregion
+
+
         #region IsDefeatedTests
         [Fact]
         public void IsDefeated_Default()
@@ -35,10 +43,9 @@ namespace BattleshipTests.ValidationTests
         [Fact]
         public void IsDefeated_AllShipsSunk()
         {
-            var player = MakeValidPlayer();
-            for (int i = 0; i >= player.Fleet.Count; i++)
+            for (int i = 0; i >= player1.Fleet.Count; i++)
             {
-                MakeValidPlayer(x => x.Fleet[i].Hits = 3).IsDefeated.Should().BeTrue();
+                MakeValidPlayer(player => player.Fleet[i].Hits = 3).IsDefeated.Should().BeTrue();
             }
         }
         #endregion
@@ -47,82 +54,152 @@ namespace BattleshipTests.ValidationTests
         [Fact]
         public void PlaceShip_Success_Horizontal()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = 1;
-            int startColumn = 1;
-            string orientation = "horizontal";
-            player.PlaceShip(ship, startRow, startColumn, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_SUCCESS);
+            player1.PlaceShip(ship, row, column, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_SUCCESS);
         }
 
         [Fact]
         public void PlaceShip_Success_Vertical()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = 1;
-            int startColumn = 1;
-            string orientation = "vertical";
-            player.PlaceShip(ship, startRow, startColumn, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_SUCCESS);
+            orientation = "vertical";
+            player1.PlaceShip(ship, row, column, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_SUCCESS);
         }
 
         [Fact]
         public void PlaceShip_Success_CheckPanels()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = 1;
-            int startColumn = 1;
-            string orientation = "horizontal";
-
-            player.PlaceShip(ship, startRow, startColumn, orientation);
-            player.OwnBoard.Panels[0].OccupationStatus.Should().Be(ship.Status);
+            player1.PlaceShip(ship, row, column, orientation);
+            player1.OwnBoard.Panels[0].OccupationStatus.Should().Be(ship.Status);
         }
 
         [Fact]
         public void PlaceShip_Failure_InvalidEndCoordinates_Row()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = ConstantsHandler.BOARD_LENGTH + 1;
-            int startColumn = 1;
-            string orientation = "horizontal";
-            player.PlaceShip(ship, startRow, startColumn, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_INVALID_COORDS);
+            row = ConstantsHandler.BOARD_LENGTH + 1;
+            player1.PlaceShip(ship, row, column, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_INVALID_COORDS);
         }
 
         [Fact]
         public void PlaceShip_Failure_InvalidEndCoordinates_Column()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = 1;
-            int startColumn = ConstantsHandler.BOARD_LENGTH + 1;
-            string orientation = "horizontal";
-            player.PlaceShip(ship, startRow, startColumn, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_INVALID_COORDS);
+            column = ConstantsHandler.BOARD_LENGTH + 1;
+            player1.PlaceShip(ship, row, column, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_INVALID_COORDS);
         }
 
         [Fact]
         public void PlaceShip_Failure_PanelAlreadyHasShip()
         {
-            var player = MakeValidPlayer();
-            var ship = new Battleship();
-            int startRow = 1;
-            int startColumn = 1;
-            string orientation = "horizontal";
-            player.PlaceShip(ship, startRow, startColumn, orientation);
-
-            player.PlaceShip(ship, startRow, startColumn, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_HAS_SHIP);
+            player1.PlaceShip(ship, row, column, orientation);
+            player1.PlaceShip(ship, row, column, orientation).Should().Be(ConstantsHandler.SHIP_PLACE_HAS_SHIP);
         }
         #endregion
 
+        #region FireShotTest
         [Fact]
         public void FireShot()
         {
-            int row = 1;
-            int column = 1;
-            var player = MakeValidPlayer();
             var expected = new Coordinates(row, column);
-            player.FireShot(row, column).Should().BeEquivalentTo(expected);
+            player1.FireShot(row, column).Should().BeEquivalentTo(expected);
         }
+        #endregion
+
+        #region HandleShotTests
+        [Fact]
+        public void HandleShot_Hit()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+            var coordinates = player1.FireShot(row, column);
+            player2.HandleShot(coordinates).Should().Be(ShotResult.Hit);
+        }
+
+        [Fact]
+        public void HandleShot_Sank()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+
+            var coordinates = player1.FireShot(row, column);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column + 1);
+            result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column + 2);
+            player2.HandleShot(coordinates).Should().Be(ShotResult.Sank);
+        }
+
+        [Fact]
+        public void HandleShot_AlreadyHit()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+
+            var coordinates = player1.FireShot(row, column);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column);
+            player2.HandleShot(coordinates).Should().Be(ShotResult.AlreadyHit);
+        }
+
+        [Fact]
+        public void HandleShot_Miss()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+            var coordinates = player1.FireShot(row + 1, column + 1);
+            player2.HandleShot(coordinates).Should().Be(ShotResult.Miss);
+        }
+        #endregion
+
+        #region HandleShotResultTests
+        [Fact]
+        public void HandleShotResult_Hit()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+            var coordinates = player1.FireShot(row, column);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result).Should().Be(ConstantsHandler.HIT);
+        }
+
+        [Fact]
+        public void HandleShotResult_Sank()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+
+            var coordinates = player1.FireShot(row, column);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column + 1);
+            result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column + 2);
+            result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result).Should().Be("");
+        }
+
+        [Fact]
+        public void HandleShotResult_AlreadyHit()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+
+            var coordinates = player1.FireShot(row, column);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result);
+
+            coordinates = player2.FireShot(row, column);
+            result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result).Should().Be(ConstantsHandler.ALREADY_HIT);
+        }
+
+        [Fact]
+        public void HandleShotResult_Miss()
+        {
+            player2.PlaceShip(ship, row, column, orientation);
+            var coordinates = player1.FireShot(row + 1, column + 1);
+            var result = player2.HandleShot(coordinates);
+            player1.HandleShotResult(coordinates, result).Should().Be(ConstantsHandler.MISS);
+        }
+        #endregion
     }
 }

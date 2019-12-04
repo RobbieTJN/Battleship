@@ -22,7 +22,7 @@ namespace BattleshipTests.ValidationTests
         [Fact]
         public void HasShip_Affirmative()
         {
-            MakeValidPanel(p => p.OccupationStatus = PanelStatus.Battleship).HasShip.Should().BeTrue();
+            MakeValidPanel(panel => panel.OccupationStatus = PanelStatus.Battleship).HasShip.Should().BeTrue();
         }
     }
 }

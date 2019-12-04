@@ -6,17 +6,18 @@ namespace BattleshipTests.ValidationTests
 {
     public class AreNamesConfirmed_Tests
     {
+        private string input;
         [Fact]
         public void AreNamesConfirmed_Affirmative()
         {
-            string input = "Y";
+            input = "Y";
             Validator.AreNamesConfirmed(input).Should().BeTrue();
         }
 
         [Fact]
         public void AreNamesConfirmed_Negative()
         {
-            string input = "N";
+            input = "N";
             Validator.AreNamesConfirmed(input).Should().BeFalse();
         }
     }

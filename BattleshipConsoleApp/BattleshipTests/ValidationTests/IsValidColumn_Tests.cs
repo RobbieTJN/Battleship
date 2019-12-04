@@ -6,24 +6,25 @@ namespace BattleshipTests.ValidationTests
 {
     public class IsValidColumn_Tests
     {
+        private string input;
         [Fact]
         public void IsValidColumn_Affirmative()
         {
-            string input = "A";
+            input = "A";
             Validator.IsValidColumn(input).Should().BeTrue();
         }
 
         [Fact]
-        public void IsValidRow_Negative_InputIsNotSingleLetter()
+        public void IsValidColumn_Negative_InputIsNotSingleLetter()
         {
-            string input = "AA";
+            input = "AA";
             Validator.IsValidColumn(input).Should().BeFalse();
         }
 
         [Fact]
-        public void IsValidRow_Negative_InputIsOutsideBoard()
+        public void IsValidColumn_Negative_InputIsOutsideBoard()
         {
-            string input = "Z";
+            input = "Z";
             Validator.IsValidColumn(input).Should().BeFalse();
         }
     }

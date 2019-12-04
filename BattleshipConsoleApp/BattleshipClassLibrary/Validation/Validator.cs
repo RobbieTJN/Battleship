@@ -5,6 +5,23 @@ namespace BattleshipClassLibrary.Validation
 {
     public static class Validator
     {
+        public static bool IsValidName(string input)
+        {
+            bool result = true;
+            Regex regex = new Regex("[a-z]", RegexOptions.IgnoreCase);
+
+            if (input.Length > 20)
+            {
+                result = false;
+            }
+            if (!regex.IsMatch(input))
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
         public static bool AreNamesConfirmed(string input)
         {
             bool result;
