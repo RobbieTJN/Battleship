@@ -18,7 +18,7 @@ namespace BattleshipClassLibrary
         AircraftCarrier,
         [Description("X")]
         Hit,
-        [Description("M")]
+        [Description("O")]
         Miss
     }
 }

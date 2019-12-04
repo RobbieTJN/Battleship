@@ -44,14 +44,14 @@
             {
                 case "h":
                 case "horizontal":
-                    output = "horizontal";
+                    output = ConstantsHandler.HORIZONTAL;
                     break;
                 case "v":
                 case "vertical":
-                    output = "vertical";
+                    output = ConstantsHandler.VERTICAL;
                     break;
                 default:
-                    output = "Error";
+                    output = ConstantsHandler.ORIENTATION_INPUT_ERROR;
                     break;
             }
             return output;

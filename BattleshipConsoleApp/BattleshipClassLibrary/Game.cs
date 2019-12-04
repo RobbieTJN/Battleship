@@ -117,7 +117,7 @@ namespace BattleshipClassLibrary
             Console.WriteLine(ConstantsHandler.ORIENTATION);
             string orientationInput = Console.ReadLine();
             string orientation = StringConverters.Orientation(orientationInput);
-            while (orientation == "Error")
+            while (orientation == ConstantsHandler.ORIENTATION_INPUT_ERROR)
             {
                 Console.WriteLine(ConstantsHandler.ORIENTATION_ERROR);
                 orientationInput = Console.ReadLine();
@@ -143,7 +143,7 @@ namespace BattleshipClassLibrary
             string shotResult = Player1.HandleShotResult(coordinates, result);
             while (shotResult == ConstantsHandler.ALREADY_HIT)
             {
-                Console.WriteLine("Enter new coordinates:");
+                Console.WriteLine(ConstantsHandler.ALREADY_HIT);
                 column = EnterColumn();
                 row = EnterRow();
                 coordinates = Player1.FireShot(row, column);
@@ -152,14 +152,12 @@ namespace BattleshipClassLibrary
             }
 
             Console.Clear();
-            
+
             if (result == ShotResult.Sank)
             {
-                Console.WriteLine();
-                Player2.HandleShot(coordinates);
+                Player1.HandleShot(coordinates);
             }
 
-            Console.WriteLine();
             Console.WriteLine(shotResult);
             Player1.DrawOpponentBoard();
 
@@ -183,7 +181,7 @@ namespace BattleshipClassLibrary
                 shotResult = Player2.HandleShotResult(coordinates, result);
                 while (shotResult == ConstantsHandler.ALREADY_HIT)
                 {
-                    Console.WriteLine("Enter new coordinates:");
+                    Console.WriteLine(ConstantsHandler.ALREADY_HIT);
                     column = EnterColumn();
                     row = EnterRow();
                     coordinates = Player2.FireShot(row, column);
@@ -195,11 +193,9 @@ namespace BattleshipClassLibrary
 
                 if (result == ShotResult.Sank)
                 {
-                    Console.WriteLine();
                     Player2.HandleShot(coordinates);
                 }
 
-                Console.WriteLine();
                 Console.WriteLine(shotResult);
                 Player2.DrawOpponentBoard();
 
@@ -220,11 +216,11 @@ namespace BattleshipClassLibrary
 
             if (Player2.IsDefeated)
             {
-                Console.WriteLine(Player1.Name + " has won the game!");
+                Console.WriteLine(Player1.Name + ConstantsHandler.WINNER_MESSAGE);
             }
             else if (Player1.IsDefeated)
             {
-                Console.WriteLine(Player2.Name + " has won the game!");
+                Console.WriteLine(Player2.Name + ConstantsHandler.WINNER_MESSAGE);
             }
         }
     }

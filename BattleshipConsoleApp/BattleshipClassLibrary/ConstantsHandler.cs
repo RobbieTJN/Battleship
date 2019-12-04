@@ -12,15 +12,23 @@
 
         public static string ORIENTATION = "Now enter its orientation: horizontal (h) or vertical (v).";
         public static string ORIENTATION_ERROR = "Invalid orientation, try again.";
+        public static string VERTICAL = "vertical";
+        public static string HORIZONTAL = "horizontal";
+        public static string ORIENTATION_INPUT_ERROR = "Error";
 
         public static string SHIP_PLACE_SUCCESS = "Successfully placed ship.";
+
+        public static string SHIP_PLACE_INVALID_COORDS = "Invalid ship placement - ship would be partially outside the game board. Try again.";
+        public static string SHIP_PLACE_HAS_SHIP = "Invalid ship placement - one or more of the selected panels already contains a ship. Try again.";
 
         public static string PLAYER_TURN_MESSAGE = "'s turn! Enter the coordinates you wish to fire at!";
 
         public static string OPPONENT_BOARD = "Opponent's Board:";
 
-        public static string ALREADY_HIT = "You already hit that panel.";
+        public static string ALREADY_HIT = "You already targeted that panel. Enter new coordinates:";
 
         public static string CONTINUE = "Press any key to continue...";
+
+        public static string WINNER_MESSAGE = " has won the game!";
     }
 }

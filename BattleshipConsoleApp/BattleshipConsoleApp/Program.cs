@@ -55,7 +55,7 @@ namespace BattleshipConsoleApp
                 string orientation = game.EnterOrientation();
 
                 string placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
-                while (placedShip != "Successfully placed ship.")
+                while (placedShip != ConstantsHandler.SHIP_PLACE_SUCCESS)
                 {
                     Console.WriteLine(placedShip);
                     column = game.EnterColumn();
@@ -63,8 +63,6 @@ namespace BattleshipConsoleApp
                     orientation = game.EnterOrientation();
                     placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
                 }
-
-                //game.Player2.OpponentBoard = game.Player1.PlaceShip(ship, row, column, orientation);
                 Console.WriteLine(placedShip);
             }
 

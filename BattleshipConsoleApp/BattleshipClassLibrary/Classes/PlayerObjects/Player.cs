@@ -105,14 +105,14 @@ namespace BattleshipClassLibrary
 
             if (!Validator.IsValidEndCoordinates(endRow, endColumn))
             {
-                placementAvailable = "Invalid ship placement - ship would be partially outside the game board. Try again.";
+                placementAvailable = ConstantsHandler.SHIP_PLACE_INVALID_COORDS;
             }
             else
             {
                 var selectedPanels = OwnBoard.Panels.ShipPanelRange(startRow, startColumn, endRow, endColumn);
                 if (selectedPanels.Any(panel => panel.HasShip))
                 {
-                    placementAvailable = "Invalid ship placement - one or more of the selected panels already contains a ship. Try again.";
+                    placementAvailable = ConstantsHandler.SHIP_PLACE_HAS_SHIP;
                 }
                 else
                 {
@@ -122,7 +122,6 @@ namespace BattleshipClassLibrary
                     }
                 }
             }
-            
             return placementAvailable;
         }
 
@@ -151,6 +150,7 @@ namespace BattleshipClassLibrary
 
             if (affectedShip.HasSunk)
             {
+                Console.WriteLine();
                 Console.WriteLine("[Sinking ship sounds] ...You sank my " + affectedShip.Name + ".");
                 affectedPanel.WasAlreadyTargeted = true;
                 return ShotResult.Sank;

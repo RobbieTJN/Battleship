@@ -14,11 +14,6 @@ namespace BattleshipClassLibrary.Validation
             {
                 case "y":
                 case "yes":
-                case "yeah":
-                case "ok":
-                case "okay":
-                case "sure":
-                case "absolutely":
                     result = true;
                     break;
                 default:
