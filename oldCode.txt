@@ -1,0 +1,146 @@
+//Console.WriteLine(player1 + ", enter the coordinates for your " + ship.Name + "! Make sure " + player2 + " doesn't peak!");
+
+            //game.Player1ShipMessage(player1, player2);
+
+            /*
+            Console.Write(ConstantsHandler.COLUMN);
+            string player1Battleship_Column_Input = Console.ReadLine();
+            while (!Validator.IsValidColumn(player1Battleship_Column_Input))
+            {
+                Console.WriteLine(ConstantsHandler.COLUMN_ERROR);
+                player1Battleship_Column_Input = Console.ReadLine();
+            }
+            int player1StartColumn_Battleship = StringConverters.StringToInt(player1Battleship_Column_Input);
+
+            Console.Write(ConstantsHandler.ROW);
+            string player1Battleship_Row_Input = Console.ReadLine();
+            while (!Validator.IsValidRow(player1Battleship_Row_Input))
+            {
+                Console.WriteLine(ConstantsHandler.ROW_ERROR);
+                player1Battleship_Row_Input = Console.ReadLine();
+            }
+            int player1StartRow_Battleship = int.Parse(player1Battleship_Row_Input);
+
+            Console.WriteLine(ConstantsHandler.ORIENTATION);
+            string player1Orientation_Battleship_Input = Console.ReadLine();
+            string player1Orientation_Battleship = StringConverters.Orientation(player1Orientation_Battleship_Input);
+
+            while (player1Orientation_Battleship == "Error")
+            {
+                Console.WriteLine(ConstantsHandler.ORIENTATION_ERROR);
+                player1Orientation_Battleship_Input = Console.ReadLine();
+                player1Orientation_Battleship = StringConverters.Orientation(player1Orientation_Battleship_Input);
+            }
+
+            string player1PlacedShip_Battleship = game.Player1.PlaceShip(player1StartColumn_Battleship, player1StartRow_Battleship, player1Orientation_Battleship);
+            Console.WriteLine(player1PlacedShip_Battleship);
+            
+
+
+
+
+
+
+
+            Thread.Sleep(500);
+            Console.WriteLine("Get ready to place " + player2 + "'s ship...");
+            Thread.Sleep(1500);
+            Console.Clear();
+
+            board.DrawEmptyBoard();
+
+            Console.WriteLine(player2 + ", enter the coordinates for your Battleship! Make sure " + player1 + " doesn't peak!");
+            Console.Write(ConstantsHandler.COLUMN);
+            string player2Battleship_Column_Input = Console.ReadLine();
+            while (!Validator.IsValidColumn(player2Battleship_Column_Input))
+            {
+                Console.WriteLine(ConstantsHandler.COLUMN_ERROR);
+                player2Battleship_Column_Input = Console.ReadLine();
+            }
+            int player2StartColumn_Battleship = StringConverters.StringToInt(player2Battleship_Column_Input);
+
+            Console.Write(ConstantsHandler.ROW);
+            string player2Battleship_Row_Input = Console.ReadLine();
+            while (!Validator.IsValidRow(player2Battleship_Row_Input))
+            {
+                Console.WriteLine(ConstantsHandler.ROW_ERROR);
+                player2Battleship_Row_Input = Console.ReadLine();
+            }
+            int player2StartRow_Battleship = int.Parse(player2Battleship_Row_Input);
+
+            Console.WriteLine(ConstantsHandler.ORIENTATION);
+            string player2Orientation_Battleship_Input = Console.ReadLine();
+            string player2Orientation_Battleship = StringConverters.Orientation(player2Orientation_Battleship_Input);
+
+            while (player2Orientation_Battleship == "Error")
+            {
+                Console.WriteLine(ConstantsHandler.ORIENTATION_ERROR);
+                player2Orientation_Battleship_Input = Console.ReadLine();
+                player2Orientation_Battleship = StringConverters.Orientation(player2Orientation_Battleship_Input);
+            }
+
+            string player2PlacedShip_Battleship = game.Player2.PlaceShip(player2StartColumn_Battleship, player2StartRow_Battleship, player2Orientation_Battleship);
+            Console.WriteLine(player2PlacedShip_Battleship);
+            */
+
+            //TODO: Refactor above code into separate methods; Check the message returned by PlaceShip(), and if it gives an error, do placement again
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+            foreach (var ship in Fleet)
+            {
+                int endColumn = startColumn, endRow = startRow;
+                
+                switch (orientation)
+                {
+                    case "horizontal":
+                        for (int i = 1; i < ship.Size; i++)
+                        {
+                            endRow++;
+                        }
+                        break;
+                    case "vertical":
+                        for (int i = 1; i < ship.Size; i++)
+                        {
+                            endColumn++;
+                        }
+                        break;
+                    default:
+                        placementAvailable = "Invalid orientation";
+                        break;
+                }
+
+                if (!Validator.IsValidEndCoordinates(endColumn, endRow))
+                {
+                    placementAvailable = "Invalid ship placement - ship would be partially outside the game board. Try again.";
+                }
+
+                var selectedPanels = OwnBoard.Panels.ShipPanelRange(startColumn, startRow, endColumn, endRow);
+                if (selectedPanels.Any(panel => panel.HasShip))
+                {
+                    placementAvailable = "Invalid ship placement - one or more of the selected panels already contains a ship. Try again.";
+                }
+
+                foreach(var panel in selectedPanels)
+                {
+                    panel.OccupationStatus = ship.Status;
+                }
+            }
+            */
