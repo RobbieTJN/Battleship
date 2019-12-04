@@ -119,16 +119,17 @@ namespace BattleshipClassLibrary
             attackingPlayer.DrawOpponentBoard();
 
             Console.WriteLine(ConstantsHandler.CONTINUE);
-            Console.ReadKey(true);
         }
 
 
         public void PlayRound()
         {
             PlayTurn(Player1, Player2);
+            Console.ReadKey(true);
             if (!Player2.IsDefeated)
             {
                 PlayTurn(Player2, Player1);
+                Console.ReadKey(true);
             }
         }
 
