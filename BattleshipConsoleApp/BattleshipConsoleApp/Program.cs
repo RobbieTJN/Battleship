@@ -58,14 +58,14 @@ namespace BattleshipConsoleApp
                 int row = game.EnterRow();
                 string orientation = game.EnterOrientation();
 
-                string placedShip = game.Player1.PlaceShip(ship, column, row, orientation);
+                string placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
                 while (placedShip != "Successfully placed ship.")
                 {
                     Console.WriteLine(placedShip);
                     column = game.EnterColumn();
                     row = game.EnterRow();
                     orientation = game.EnterOrientation();
-                    placedShip = game.Player1.PlaceShip(ship, column, row, orientation);
+                    placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
                 }
 
                 Console.WriteLine(placedShip);
@@ -85,14 +85,14 @@ namespace BattleshipConsoleApp
                 int row = game.EnterRow();
                 string orientation = game.EnterOrientation();
 
-                string placedShip = game.Player2.PlaceShip(ship, column, row, orientation);
+                string placedShip = game.Player2.PlaceShip(ship, row, column, orientation);
                 while (placedShip != "Successfully placed ship.")
                 {
                     Console.WriteLine(placedShip);
                     column = game.EnterColumn();
                     row = game.EnterRow();
                     orientation = game.EnterOrientation();
-                    placedShip = game.Player2.PlaceShip(ship, column, row, orientation);
+                    placedShip = game.Player2.PlaceShip(ship, row, column, orientation);
                 }
 
                 Console.WriteLine(placedShip);

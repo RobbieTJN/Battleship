@@ -1,10 +1,8 @@
-﻿using BattleshipClassLibrary.Classes.BoardObjects;
-using BattleshipClassLibrary.Validation;
+﻿using BattleshipClassLibrary.Validation;
 using BattleshipClassLibrary.Methods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using BattleshipClassLibrary.Enumerations;
 
 namespace BattleshipClassLibrary
@@ -13,7 +11,7 @@ namespace BattleshipClassLibrary
     {
         public string Name { get; set; }
         public Board OwnBoard { get; set; }
-        public AttackBoard OpponentBoard { get; set; }
+        public Board OpponentBoard { get; set; }
         public List<Ship> Fleet { get; set; }
         public bool IsDefeated => Fleet.All(ships => ships.HasSunk);
 
@@ -28,7 +26,7 @@ namespace BattleshipClassLibrary
                 new Battleship()
             };
             OwnBoard = new Board();
-            OpponentBoard = new AttackBoard();
+            OpponentBoard = new Board();
         }
 
         public void DrawOwnBoard()
@@ -40,15 +38,15 @@ namespace BattleshipClassLibrary
             }
             Console.Write(Environment.NewLine);
             Console.WriteLine(horizontalLine);
-            for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
+            for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
             {
-                for (int ownRow = 1; ownRow <= ConstantsHandler.BOARD_LENGTH; ownRow++)
+                for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
                 {
-                    if (OwnBoard.Panels.At(column, ownRow).Coordinates.Row == 1)
+                    if (OwnBoard.Panels.At(row, column).Coordinates.Column == 1)
                     {
-                        Console.Write(column + verticalLine);
+                        Console.Write(row + verticalLine);
                     }
-                    Console.Write(OwnBoard.Panels.At(column, ownRow).DisplayStatus + verticalLine);
+                    Console.Write(OwnBoard.Panels.At(row, column).DisplayStatus + verticalLine);
                 }
                 Console.Write(Environment.NewLine);
                 Console.WriteLine(horizontalLine);
@@ -65,15 +63,15 @@ namespace BattleshipClassLibrary
             }
             Console.Write(Environment.NewLine);
             Console.WriteLine(horizontalLine);
-            for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
+            for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
             {
-                for (int ownRow = 1; ownRow <= ConstantsHandler.BOARD_LENGTH; ownRow++)
+                for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
                 {
-                    if (OwnBoard.Panels.At(column, ownRow).Coordinates.Row == 1)
+                    if (OpponentBoard.Panels.At(row, column).Coordinates.Column == 1)
                     {
-                        Console.Write(column + verticalLine);
+                        Console.Write(row + verticalLine);
                     }
-                    Console.Write(OpponentBoard.Panels.At(column, ownRow).DisplayStatus + verticalLine);
+                    Console.Write(OpponentBoard.Panels.At(row, column).DisplayStatus + verticalLine);
                 }
                 Console.Write(Environment.NewLine);
                 Console.WriteLine(horizontalLine);
@@ -81,23 +79,23 @@ namespace BattleshipClassLibrary
             Console.WriteLine(Environment.NewLine);
         }
 
-        public string PlaceShip(Ship ship, int startColumn, int startRow, string orientation)
+        public string PlaceShip(Ship ship, int startRow, int startColumn, string orientation)
         {
             string placementAvailable = "Successfully placed ship.";
-            int endColumn = startColumn, endRow = startRow;
+            int endRow = startRow, endColumn = startColumn;
 
             switch (orientation)
             {
                 case "horizontal":
                     for (int i = 1; i < ship.Size; i++)
                     {
-                        endRow++;
+                        endColumn++;
                     }
                     break;
                 case "vertical":
                     for (int i = 1; i < ship.Size; i++)
                     {
-                        endColumn++;
+                        endRow++;
                     }
                     break;
                 default:
@@ -105,33 +103,37 @@ namespace BattleshipClassLibrary
                     break;
             }
 
-            if (!Validator.IsValidEndCoordinates(endColumn, endRow))
+            if (!Validator.IsValidEndCoordinates(endRow, endColumn))
             {
                 placementAvailable = "Invalid ship placement - ship would be partially outside the game board. Try again.";
             }
-
-            var selectedPanels = OwnBoard.Panels.ShipPanelRange(startColumn, startRow, endColumn, endRow);
-            if (selectedPanels.Any(panel => panel.HasShip))
+            else
             {
-                placementAvailable = "Invalid ship placement - one or more of the selected panels already contains a ship. Try again.";
+                var selectedPanels = OwnBoard.Panels.ShipPanelRange(startRow, startColumn, endRow, endColumn);
+                if (selectedPanels.Any(panel => panel.HasShip))
+                {
+                    placementAvailable = "Invalid ship placement - one or more of the selected panels already contains a ship. Try again.";
+                }
+                else
+                {
+                    foreach (var panel in selectedPanels)
+                    {
+                        panel.OccupationStatus = ship.Status;
+                    }
+                }
             }
-
-            foreach (var panel in selectedPanels)
-            {
-                panel.OccupationStatus = ship.Status;
-            }
-
+            
             return placementAvailable;
         }
 
-        public Coordinates FireShot(int column, int row)
+        public Coordinates FireShot(int row, int column)
         {
-            return new Coordinates(column, row);
+            return new Coordinates(row, column);
         }
 
         public ShotResult HandleShot(Coordinates coordinates)
         {
-            var affectedPanel = OwnBoard.Panels.At(coordinates.Column, coordinates.Row);
+            var affectedPanel = OwnBoard.Panels.At(coordinates.Row, coordinates.Column);
             if (!affectedPanel.HasShip)
             {
                 return ShotResult.Miss;
@@ -153,7 +155,7 @@ namespace BattleshipClassLibrary
         public string HandleShotResult(Coordinates coordinates, ShotResult ShotResult)
         {
             string result = "";
-            var affectedPanel = OpponentBoard.Panels.At(coordinates.Column, coordinates.Row);
+            var affectedPanel = OpponentBoard.Panels.At(coordinates.Row, coordinates.Column);
             switch (ShotResult)
             {
                 case ShotResult.Hit:

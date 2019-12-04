@@ -1,8 +1,5 @@
 ﻿using BattleshipClassLibrary.Methods;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
 namespace BattleshipClassLibrary
 {
@@ -13,9 +10,9 @@ namespace BattleshipClassLibrary
 
         public string DisplayStatus => OccupationStatus.GetDescription<DescriptionAttribute>().Description;
 
-        public Panel(int column, int row)
+        public Panel(int row, int column)
         {
-            Coordinates = new Coordinates(column, row);
+            Coordinates = new Coordinates(row, column);
             OccupationStatus = PanelStatus.Empty;
         }
 

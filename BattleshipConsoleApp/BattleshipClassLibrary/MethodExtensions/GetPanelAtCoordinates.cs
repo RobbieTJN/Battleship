@@ -5,9 +5,9 @@ namespace BattleshipClassLibrary.Methods
 {
     public static class GetPanelAtCoordinates
     {
-        public static Panel At(this List<Panel> panels, int column, int row)
+        public static Panel At(this List<Panel> panels, int row, int column)
         {
-            return panels.Where(x => x.Coordinates.Column == column && x.Coordinates.Row == row).First();
+            return panels.Where(panel => panel.Coordinates.Row == row && panel.Coordinates.Column == column).First();
         }
     }
 }

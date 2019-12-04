@@ -11,15 +11,6 @@ namespace BattleshipClassLibrary
         public Player Player1 { get; set; }
         public Player Player2 { get; set; }
         public Board EmptyBoard { get; set; }
-        //public int Turn { get; set; }
-        //public int Winner { get; set; }
-
-        /*
-        public Game(string player1, string player2)
-        {
-            Player1 = new Player(player1);
-            Player2 = new Player(player2);
-        }*/
 
         public void PrintBattleshipLogo()
         {
@@ -32,7 +23,7 @@ namespace BattleshipClassLibrary
                 @" | |_/ / (_| | |_| |_| |  __/\__ \ | | | | |_) |" + Environment.NewLine +
                 @" \____/ \__,_|\__|\__|_|\___||___/_| |_|_| .__/ " + Environment.NewLine +
                 @"    Programmed by Robbie Nielsen         | |    " + Environment.NewLine +
-                @"    Version 1.0 - 2019-12-02             |_|    ");
+                @"    Version 1.0 - 2019-12-04             |_|    ");
             Console.WriteLine(Environment.NewLine + Environment.NewLine);
             Thread.Sleep(1000);
         }
@@ -142,15 +133,13 @@ namespace BattleshipClassLibrary
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine(Player1.Name + ConstantsHandler.PLAYER_TURN_MESSAGE);
-            Console.WriteLine("Opponent's Board:");
+            Console.WriteLine(ConstantsHandler.OPPONENT_BOARD);
             Player1.DrawOpponentBoard();
             Console.WriteLine();
-            Console.WriteLine("Own board:");
-            Player1.DrawOwnBoard();
+
             int column = EnterColumn();
             int row = EnterRow();
-
-            var coordinates = Player1.FireShot(column, row);
+            var coordinates = Player1.FireShot(row, column);
             var result = Player2.HandleShot(coordinates);
 
             string shotResult = Player1.HandleShotResult(coordinates, result);
@@ -158,7 +147,8 @@ namespace BattleshipClassLibrary
             Console.WriteLine();
             Console.WriteLine(shotResult);
             Player1.DrawOpponentBoard();
-            Console.WriteLine("Press any key to continue...");
+
+            Console.WriteLine(ConstantsHandler.CONTINUE);
             Console.ReadKey(true);
 
             if (!Player2.IsDefeated)
@@ -166,15 +156,13 @@ namespace BattleshipClassLibrary
                 Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine(Player2.Name + ConstantsHandler.PLAYER_TURN_MESSAGE);
-                Console.WriteLine("Opponent's Board:");
+                Console.WriteLine(ConstantsHandler.OPPONENT_BOARD);
                 Player2.DrawOpponentBoard();
                 Console.WriteLine();
-                Console.WriteLine("Own board:");
-                Player2.DrawOwnBoard();
+
                 column = EnterColumn();
                 row = EnterRow();
-
-                coordinates = Player2.FireShot(column, row);
+                coordinates = Player2.FireShot(row, column);
                 result = Player1.HandleShot(coordinates);
 
                 shotResult = Player2.HandleShotResult(coordinates, result);
@@ -182,7 +170,8 @@ namespace BattleshipClassLibrary
                 Console.WriteLine();
                 Console.WriteLine(shotResult);
                 Player2.DrawOpponentBoard();
-                Console.WriteLine("Press any key to continue...");
+
+                Console.WriteLine(ConstantsHandler.CONTINUE);
                 Console.ReadKey(true);
             }
         }
@@ -194,6 +183,8 @@ namespace BattleshipClassLibrary
                 PlayTurn();
             }
 
+            Console.Clear();
+
             if (Player2.IsDefeated)
             {
                 Console.WriteLine(Player1.Name + " has won the game!");
@@ -202,13 +193,6 @@ namespace BattleshipClassLibrary
             {
                 Console.WriteLine(Player2.Name + " has won the game!");
             }
-
-            Console.WriteLine("Final boards" + Environment.NewLine);
-            Console.WriteLine(Player1.Name + "'s board:");
-            Player1.DrawOwnBoard();
-            Console.WriteLine();
-            Console.WriteLine(Player2.Name + "'s board:");
-            Player2.DrawOwnBoard();
         }
     }
 }

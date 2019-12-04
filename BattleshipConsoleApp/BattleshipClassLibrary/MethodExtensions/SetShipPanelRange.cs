@@ -5,12 +5,12 @@ namespace BattleshipClassLibrary.Methods
 {
     public static class SetShipPanelRange
     {
-        public static List<Panel> ShipPanelRange(this List<Panel> panels, int startColumn, int startRow, int endColumn, int endRow)
+        public static List<Panel> ShipPanelRange(this List<Panel> panels, int startRow, int startColumn, int endRow, int endColumn)
         {
-            return panels.Where(x => x.Coordinates.Column >= startColumn
-                                     && x.Coordinates.Row >= startRow
-                                     && x.Coordinates.Column <= endColumn
-                                     && x.Coordinates.Row <= endRow).ToList();
+            return panels.Where(x => x.Coordinates.Row >= startRow
+                                     && x.Coordinates.Column >= startColumn
+                                     && x.Coordinates.Row <= endRow
+                                     && x.Coordinates.Column <= endColumn).ToList();
         }
     }
 }

@@ -2,13 +2,13 @@
 {
     public class Coordinates
     {
-        public int Column { get; set; }
         public int Row { get; set; }
+        public int Column { get; set; }
 
-        public Coordinates(int column, int row)
+        public Coordinates(int row, int column)
         {
-            Column = column;
             Row = row;
+            Column = column;
         }
     }
 }

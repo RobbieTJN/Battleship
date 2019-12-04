@@ -30,23 +30,6 @@ namespace BattleshipClassLibrary.Validation
             return result;
         }
 
-        public static bool IsValidColumn(string input)
-        {
-            bool result = true;
-            Regex regex = new Regex("[a-hA-H]", RegexOptions.IgnoreCase);
-
-            if (input.Length > 1)
-            {
-                result = false;
-            }
-            if (!regex.IsMatch(input))
-            {
-                result = false;
-            }
-
-            return result;
-        }
-
         public static bool IsValidRow(string input)
         {
             bool result = true;
@@ -71,20 +54,27 @@ namespace BattleshipClassLibrary.Validation
             return result;
         }
 
-        public static bool IsValidInitialCoordinates(int startColumn, int startRow)
+        public static bool IsValidColumn(string input)
         {
-            bool isValid = true;
-            if (startColumn > ConstantsHandler.BOARD_LENGTH || startRow > ConstantsHandler.BOARD_LENGTH)
+            bool result = true;
+            Regex regex = new Regex("[a-h]", RegexOptions.IgnoreCase);
+
+            if (input.Length > 1)
             {
-                isValid = false;
+                result = false;
             }
-            return isValid;
+            if (!regex.IsMatch(input))
+            {
+                result = false;
+            }
+
+            return result;
         }
 
-        public static bool IsValidEndCoordinates (int endColumn, int endRow)
+        public static bool IsValidEndCoordinates (int endRow, int endColumn)
         {
             bool isValid = true;
-            if (endColumn > ConstantsHandler.BOARD_LENGTH || endRow > ConstantsHandler.BOARD_LENGTH)
+            if (endRow > ConstantsHandler.BOARD_LENGTH || endColumn > ConstantsHandler.BOARD_LENGTH)
             {
                 isValid = false;
             }

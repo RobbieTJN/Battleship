@@ -2,7 +2,6 @@
 using BattleshipClassLibrary.Methods;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BattleshipClassLibrary
 {
@@ -12,11 +11,11 @@ namespace BattleshipClassLibrary
         public Board()
         {
             Panels = new List<Panel>();
-            for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
+            for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
             {
-                for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
+                for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
                 {
-                    Panels.Add(new Panel(column, row));
+                    Panels.Add(new Panel(row, column));
                 }
             }
         }
@@ -33,15 +32,15 @@ namespace BattleshipClassLibrary
             }
             Console.Write(Environment.NewLine);
             Console.WriteLine(horizontalLine);
-            for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
+            for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
             {
-                for (int row = 1; row <= ConstantsHandler.BOARD_LENGTH; row++)
+                for (int column = 1; column <= ConstantsHandler.BOARD_LENGTH; column++)
                 {
-                    if (Panels.At(column, row).Coordinates.Row == 1)
+                    if (Panels.At(row, column).Coordinates.Column == 1)
                     {
-                        Console.Write(column + verticalLine);
+                        Console.Write(row + verticalLine);
                     }
-                    Console.Write(Panels.At(column, row).DisplayStatus + verticalLine);
+                    Console.Write(Panels.At(row, column).DisplayStatus + verticalLine);
                 }
                 Console.Write(Environment.NewLine);
                 Console.WriteLine(horizontalLine);
