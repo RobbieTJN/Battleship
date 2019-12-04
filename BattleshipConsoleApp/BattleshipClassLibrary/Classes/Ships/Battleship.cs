@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BattleshipClassLibrary
+﻿namespace BattleshipClassLibrary
 {
     public class Battleship : Ship
     {
@@ -10,7 +6,7 @@ namespace BattleshipClassLibrary
         {
             Name = "Battleship";
             Size = 3;
-            Status = PanelStatus.Battlehip;
+            Status = PanelStatus.Battleship;
         }
     }
 }

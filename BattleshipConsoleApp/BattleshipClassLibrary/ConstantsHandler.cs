@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BattleshipClassLibrary
+﻿namespace BattleshipClassLibrary
 {
     public static class ConstantsHandler
     {
@@ -17,9 +13,13 @@ namespace BattleshipClassLibrary
         public static string ORIENTATION = "Now enter its orientation: horizontal (h) or vertical (v).";
         public static string ORIENTATION_ERROR = "Invalid orientation, try again.";
 
+        public static string SHIP_PLACE_SUCCESS = "Successfully placed ship.";
+
         public static string PLAYER_TURN_MESSAGE = "'s turn! Enter the coordinates you wish to fire at!";
 
         public static string OPPONENT_BOARD = "Opponent's Board:";
+
+        public static string ALREADY_HIT = "You already hit that panel.";
 
         public static string CONTINUE = "Press any key to continue...";
     }

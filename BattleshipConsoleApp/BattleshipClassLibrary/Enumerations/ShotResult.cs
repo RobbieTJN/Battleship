@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BattleshipClassLibrary
+﻿namespace BattleshipClassLibrary
 {
 
     public enum ShotResult
     {
         Hit,
         Miss,
+        AlreadyHit,
         Sank
     }
 }

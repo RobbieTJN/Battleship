@@ -13,7 +13,7 @@ namespace BattleshipClassLibrary
         [Description("S")]
         Cruiser,
         [Description("S")]
-        Battlehip,
+        Battleship,
         [Description("S")]
         AircraftCarrier,
         [Description("X")]

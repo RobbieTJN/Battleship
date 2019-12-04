@@ -5,8 +5,9 @@ namespace BattleshipClassLibrary
 {
     public class Panel
     {
-        public PanelStatus OccupationStatus;
-        public Coordinates Coordinates;
+        public PanelStatus OccupationStatus { get; set; }
+        public Coordinates Coordinates { get; set; }
+        public bool WasAlreadyTargeted = false;
 
         public string DisplayStatus => OccupationStatus.GetDescription<DescriptionAttribute>().Description;
 
@@ -19,7 +20,9 @@ namespace BattleshipClassLibrary
         public bool HasShip => OccupationStatus == PanelStatus.Destroyer
             || OccupationStatus == PanelStatus.Submarine
             || OccupationStatus == PanelStatus.Cruiser
-            || OccupationStatus == PanelStatus.Battlehip
+            || OccupationStatus == PanelStatus.Battleship
             || OccupationStatus == PanelStatus.AircraftCarrier;
+
+        
     }
 }

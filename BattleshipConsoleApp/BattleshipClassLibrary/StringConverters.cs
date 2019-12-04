@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BattleshipClassLibrary
+﻿namespace BattleshipClassLibrary
 {
     public static class StringConverters
     {

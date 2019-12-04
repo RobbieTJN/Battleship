@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using BattleshipClassLibrary;
-using BattleshipClassLibrary.Methods;
-using BattleshipClassLibrary.Validation;
 
 namespace BattleshipConsoleApp
 {
@@ -68,6 +64,7 @@ namespace BattleshipConsoleApp
                     placedShip = game.Player1.PlaceShip(ship, row, column, orientation);
                 }
 
+                //game.Player2.OpponentBoard = game.Player1.PlaceShip(ship, row, column, orientation);
                 Console.WriteLine(placedShip);
             }
 
@@ -86,7 +83,7 @@ namespace BattleshipConsoleApp
                 string orientation = game.EnterOrientation();
 
                 string placedShip = game.Player2.PlaceShip(ship, row, column, orientation);
-                while (placedShip != "Successfully placed ship.")
+                while (placedShip != ConstantsHandler.SHIP_PLACE_SUCCESS)
                 {
                     Console.WriteLine(placedShip);
                     column = game.EnterColumn();

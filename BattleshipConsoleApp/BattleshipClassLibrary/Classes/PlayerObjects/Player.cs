@@ -81,7 +81,7 @@ namespace BattleshipClassLibrary
 
         public string PlaceShip(Ship ship, int startRow, int startColumn, string orientation)
         {
-            string placementAvailable = "Successfully placed ship.";
+            string placementAvailable = ConstantsHandler.SHIP_PLACE_SUCCESS;
             int endRow = startRow, endColumn = startColumn;
 
             switch (orientation)
@@ -134,8 +134,15 @@ namespace BattleshipClassLibrary
         public ShotResult HandleShot(Coordinates coordinates)
         {
             var affectedPanel = OwnBoard.Panels.At(coordinates.Row, coordinates.Column);
+
+            if (affectedPanel.WasAlreadyTargeted == true)
+            {
+                return ShotResult.AlreadyHit;
+            }
+
             if (!affectedPanel.HasShip)
             {
+                affectedPanel.WasAlreadyTargeted = true;
                 return ShotResult.Miss;
             }
 
@@ -144,10 +151,13 @@ namespace BattleshipClassLibrary
 
             if (affectedShip.HasSunk)
             {
+                Console.WriteLine("[Sinking ship sounds] ...You sank my " + affectedShip.Name + ".");
+                affectedPanel.WasAlreadyTargeted = true;
                 return ShotResult.Sank;
             }
             else
             {
+                affectedPanel.WasAlreadyTargeted = true;
                 return ShotResult.Hit;
             }
         }
@@ -166,11 +176,11 @@ namespace BattleshipClassLibrary
                     affectedPanel.OccupationStatus = PanelStatus.Miss;
                     result = "Splooosh...Hit missed.";
                     break;
+                case ShotResult.AlreadyHit:
+                    result = ConstantsHandler.ALREADY_HIT;
+                    break;
                 case ShotResult.Sank:
-                    string affectedShip = affectedPanel.OccupationStatus.ToString();
-                    //var affectedShip = Fleet.First(ship => ship.Status == affectedPanel.OccupationStatus);
                     affectedPanel.OccupationStatus = PanelStatus.Hit;
-                    result = "[Sinking ship sounds] ...You sank my " + affectedShip + ".";
                     break;
             }
             return result;

@@ -1,7 +1,5 @@
 ﻿using BattleshipClassLibrary.Validation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace BattleshipClassLibrary
@@ -143,7 +141,24 @@ namespace BattleshipClassLibrary
             var result = Player2.HandleShot(coordinates);
 
             string shotResult = Player1.HandleShotResult(coordinates, result);
+            while (shotResult == ConstantsHandler.ALREADY_HIT)
+            {
+                Console.WriteLine("Enter new coordinates:");
+                column = EnterColumn();
+                row = EnterRow();
+                coordinates = Player1.FireShot(row, column);
+                result = Player2.HandleShot(coordinates);
+                shotResult = Player1.HandleShotResult(coordinates, result);
+            }
+
             Console.Clear();
+            
+            if (result == ShotResult.Sank)
+            {
+                Console.WriteLine();
+                Player2.HandleShot(coordinates);
+            }
+
             Console.WriteLine();
             Console.WriteLine(shotResult);
             Player1.DrawOpponentBoard();
@@ -166,7 +181,24 @@ namespace BattleshipClassLibrary
                 result = Player1.HandleShot(coordinates);
 
                 shotResult = Player2.HandleShotResult(coordinates, result);
+                while (shotResult == ConstantsHandler.ALREADY_HIT)
+                {
+                    Console.WriteLine("Enter new coordinates:");
+                    column = EnterColumn();
+                    row = EnterRow();
+                    coordinates = Player2.FireShot(row, column);
+                    result = Player1.HandleShot(coordinates);
+                    shotResult = Player2.HandleShotResult(coordinates, result);
+                }
+
                 Console.Clear();
+
+                if (result == ShotResult.Sank)
+                {
+                    Console.WriteLine();
+                    Player2.HandleShot(coordinates);
+                }
+
                 Console.WriteLine();
                 Console.WriteLine(shotResult);
                 Player2.DrawOpponentBoard();
@@ -184,6 +216,7 @@ namespace BattleshipClassLibrary
             }
 
             Console.Clear();
+            Console.WriteLine();
 
             if (Player2.IsDefeated)
             {
